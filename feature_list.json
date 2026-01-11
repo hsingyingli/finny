@@ -1,0 +1,555 @@
+[
+  {
+    "category": "functional",
+    "module": "auth",
+    "description": "POST /auth/register - 建立新使用者帳號",
+    "steps": [
+      "發送 POST /auth/register 帶 email, password, name",
+      "驗證回傳 user 物件和 token",
+      "驗證密碼有正確 hash 存入資料庫"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "auth",
+    "description": "POST /auth/register - 重複 email 註冊應回傳錯誤",
+    "steps": [
+      "先建立一個使用者",
+      "用相同 email 再次註冊",
+      "驗證回傳 400 錯誤"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "auth",
+    "description": "POST /auth/login - 正確帳密登入",
+    "steps": [
+      "發送 POST /auth/login 帶正確 email, password",
+      "驗證回傳 user 物件和 JWT token"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "auth",
+    "description": "POST /auth/login - 錯誤密碼應回傳 401",
+    "steps": [
+      "發送 POST /auth/login 帶錯誤密碼",
+      "驗證回傳 401 Unauthorized"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "auth",
+    "description": "POST /auth/logout - 登出使用者",
+    "steps": [
+      "發送 POST /auth/logout 帶有效 token",
+      "驗證回傳成功"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "POST /accounts - 建立新帳戶",
+    "steps": [
+      "發送 POST /accounts 帶 name, type, initialBalance",
+      "驗證回傳完整 Account 物件",
+      "驗證 balance 等於 initialBalance"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "GET /accounts - 取得所有帳戶列表",
+    "steps": [
+      "發送 GET /accounts",
+      "驗證回傳 Account[] 陣列"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "GET /accounts?includeArchived=true - 包含已封存帳戶",
+    "steps": [
+      "建立帳戶並封存",
+      "發送 GET /accounts?includeArchived=true",
+      "驗證結果包含已封存帳戶"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "GET /accounts/:id - 取得單一帳戶",
+    "steps": [
+      "發送 GET /accounts/:id",
+      "驗證回傳對應的 Account 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "PUT /accounts/:id - 更新帳戶資訊",
+    "steps": [
+      "發送 PUT /accounts/:id 帶部分欄位",
+      "驗證只有指定欄位被更新"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "DELETE /accounts/:id - 封存帳戶 (軟刪除)",
+    "steps": [
+      "發送 DELETE /accounts/:id",
+      "驗證帳戶 isArchived 變為 true"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "PATCH /accounts/:id/balance - 調整帳戶餘額",
+    "steps": [
+      "發送 PATCH /accounts/:id/balance 帶 delta",
+      "驗證 balance 正確增減"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "PUT /accounts/:id/default - 設定預設帳戶",
+    "steps": [
+      "發送 PUT /accounts/:id/default",
+      "驗證該帳戶 isDefault 為 true",
+      "驗證其他帳戶 isDefault 為 false"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "accounts",
+    "description": "GET /accounts/total-balance - 取得總餘額",
+    "steps": [
+      "發送 GET /accounts/total-balance",
+      "驗證回傳所有帳戶餘額總和"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "POST /categories - 建立新分類",
+    "steps": [
+      "發送 POST /categories 帶 name, icon, color, type",
+      "驗證回傳完整 Category 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "GET /categories - 取得所有分類",
+    "steps": [
+      "發送 GET /categories",
+      "驗證回傳 Category[] 陣列"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "GET /categories?type=income - 篩選收入分類",
+    "steps": [
+      "發送 GET /categories?type=income",
+      "驗證只回傳 type=income 的分類"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "GET /categories?type=expense - 篩選支出分類",
+    "steps": [
+      "發送 GET /categories?type=expense",
+      "驗證只回傳 type=expense 的分類"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "GET /categories/:id - 取得單一分類",
+    "steps": [
+      "發送 GET /categories/:id",
+      "驗證回傳對應的 Category 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "PUT /categories/:id - 更新分類",
+    "steps": [
+      "發送 PUT /categories/:id 帶部分欄位",
+      "驗證只有指定欄位被更新"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "DELETE /categories/:id - 刪除自訂分類",
+    "steps": [
+      "發送 DELETE /categories/:id (非預設分類)",
+      "驗證分類被刪除"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "DELETE /categories/:id - 預設分類無法刪除",
+    "steps": [
+      "發送 DELETE /categories/:id (預設分類)",
+      "驗證回傳錯誤，分類未被刪除"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "categories",
+    "description": "PUT /categories/reorder - 重新排序分類",
+    "steps": [
+      "發送 PUT /categories/reorder 帶 type 和 orderedIds",
+      "驗證分類 order 欄位正確更新"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "POST /tags - 建立新標籤",
+    "steps": [
+      "發送 POST /tags 帶 name, color",
+      "驗證回傳完整 Tag 物件",
+      "驗證 usageCount 為 0"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "GET /tags - 取得所有標籤 (按使用次數排序)",
+    "steps": [
+      "發送 GET /tags",
+      "驗證回傳 Tag[] 陣列",
+      "驗證按 usageCount 降序排列"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "GET /tags/:id - 取得單一標籤",
+    "steps": [
+      "發送 GET /tags/:id",
+      "驗證回傳對應的 Tag 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "GET /tags/search?query=xxx - 搜尋標籤",
+    "steps": [
+      "發送 GET /tags/search?query=xxx",
+      "驗證回傳符合搜尋條件的標籤"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "PUT /tags/:id - 更新標籤",
+    "steps": [
+      "發送 PUT /tags/:id 帶部分欄位",
+      "驗證只有指定欄位被更新"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "tags",
+    "description": "DELETE /tags/:id - 刪除標籤",
+    "steps": [
+      "發送 DELETE /tags/:id",
+      "驗證標籤被刪除"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "POST /budgets - 建立新預算",
+    "steps": [
+      "發送 POST /budgets 帶 categoryId, amount, period",
+      "驗證回傳完整 Budget 物件",
+      "驗證 isActive 為 true"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "GET /budgets - 取得所有啟用中的預算",
+    "steps": [
+      "發送 GET /budgets",
+      "驗證只回傳 isActive=true 的預算"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "GET /budgets/:id - 取得單一預算",
+    "steps": [
+      "發送 GET /budgets/:id",
+      "驗證回傳對應的 Budget 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "GET /budgets/category/:categoryId - 依分類取得預算",
+    "steps": [
+      "發送 GET /budgets/category/:categoryId",
+      "驗證回傳該分類的預算"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "PUT /budgets/:id - 更新預算",
+    "steps": [
+      "發送 PUT /budgets/:id 帶部分欄位",
+      "驗證只有指定欄位被更新"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "budgets",
+    "description": "DELETE /budgets/:id - 停用預算 (軟刪除)",
+    "steps": [
+      "發送 DELETE /budgets/:id",
+      "驗證預算 isActive 變為 false"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "POST /transactions - 建立支出交易",
+    "steps": [
+      "發送 POST /transactions 帶 type=expense",
+      "驗證回傳完整 Transaction 物件",
+      "驗證帳戶餘額減少"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "POST /transactions - 建立收入交易",
+    "steps": [
+      "發送 POST /transactions 帶 type=income",
+      "驗證回傳完整 Transaction 物件",
+      "驗證帳戶餘額增加"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "POST /transactions - 建立轉帳交易",
+    "steps": [
+      "發送 POST /transactions 帶 type=transfer 和 toAccountId",
+      "驗證來源帳戶餘額減少",
+      "驗證目標帳戶餘額增加"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "POST /transactions - 交易建立時更新標籤使用次數",
+    "steps": [
+      "建立帶有 tagIds 的交易",
+      "驗證相關標籤的 usageCount 增加"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions - 取得所有交易",
+    "steps": [
+      "發送 GET /transactions",
+      "驗證回傳 Transaction[] 陣列"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?type=expense - 篩選支出交易",
+    "steps": [
+      "發送 GET /transactions?type=expense",
+      "驗證只回傳 type=expense 的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?categoryId=xxx - 依分類篩選",
+    "steps": [
+      "發送 GET /transactions?categoryId=xxx",
+      "驗證只回傳該分類的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?accountId=xxx - 依帳戶篩選",
+    "steps": [
+      "發送 GET /transactions?accountId=xxx",
+      "驗證只回傳該帳戶的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?tagId=xxx - 依標籤篩選",
+    "steps": [
+      "發送 GET /transactions?tagId=xxx",
+      "驗證只回傳包含該標籤的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?startDate&endDate - 依日期範圍篩選",
+    "steps": [
+      "發送 GET /transactions?startDate=xxx&endDate=xxx",
+      "驗證只回傳該日期範圍內的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions?searchQuery=xxx - 搜尋交易備註",
+    "steps": [
+      "發送 GET /transactions?searchQuery=xxx",
+      "驗證回傳 note 包含搜尋字串的交易"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "GET /transactions/:id - 取得單一交易",
+    "steps": [
+      "發送 GET /transactions/:id",
+      "驗證回傳對應的 Transaction 物件"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "PUT /transactions/:id - 更新交易",
+    "steps": [
+      "發送 PUT /transactions/:id 帶部分欄位",
+      "驗證只有指定欄位被更新",
+      "驗證帳戶餘額正確調整"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "transactions",
+    "description": "DELETE /transactions/:id - 刪除交易",
+    "steps": [
+      "發送 DELETE /transactions/:id",
+      "驗證交易被刪除",
+      "驗證帳戶餘額回復"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "infrastructure",
+    "description": "資料庫連線與 migration",
+    "steps": [
+      "執行 alembic upgrade head",
+      "驗證所有資料表正確建立"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "infrastructure",
+    "description": "JWT token 驗證 middleware",
+    "steps": [
+      "發送需認證的 API 不帶 token",
+      "驗證回傳 401"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "infrastructure",
+    "description": "API Response 統一格式",
+    "steps": [
+      "發送任意 API",
+      "驗證回傳格式包含 data, success, message"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "infrastructure",
+    "description": "請求驗證錯誤回傳 422",
+    "steps": [
+      "發送缺少必填欄位的請求",
+      "驗證回傳 422 並包含錯誤細節"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "module": "infrastructure",
+    "description": "資源不存在回傳 404",
+    "steps": [
+      "發送 GET /xxx/不存在的id",
+      "驗證回傳 404"
+    ],
+    "passes": true
+  }
+]

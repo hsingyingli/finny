@@ -7,6 +7,7 @@
 - Python 3.12+, FastAPI (async), SQLModel, Agno
 - PostgreSQL + pgvector
 - Ruff (lint/format config in pyproject.toml)
+- Podman (for start up service)
 
 ## Architecture
 
